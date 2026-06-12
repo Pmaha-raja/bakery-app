@@ -1,1 +1,66 @@
-hi maharaja
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  'https://nnrjievanuqlealabihr.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ucmppZXZhbnVxbGVhbGFiaWhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0ODgzOTMsImV4cCI6MjA5NjA2NDM5M30.jz60L6ZQlPHmj22XkDGIxL1WMYEYHpkhYsKyQ8w3has'
+)
+
+// 1. FETCH ALL ROWS
+async function getAccounts() {
+  const { data, error } = await supabase
+    .from('vkb_accounts')
+    .select('*')
+  if (error) console.error(error)
+  return data
+}
+
+// 2. FETCH BY ID
+async function getAccountById(id) {
+  const { data, error } = await supabase
+    .from('vkb_accounts')
+    .select('*')
+    .eq('id', id)
+    .single()
+  if (error) console.error(error)
+  return data
+}
+
+// 3. INSERT NEW ROW
+async function addAccount() {
+  const { data, error } = await supabase
+    .from('vkb_accounts')
+    .insert([
+      {
+        title: 'sample title',
+        amount: 500,
+        type: 'credit',
+        note: 'note here',
+        account_date: '2026-06-12',
+        customer_id: 3,
+        customer_name: 'new customer'
+      }
+    ])
+    .select()
+  if (error) console.error(error)
+  return data
+}
+
+// 4. UPDATE ROW
+async function updateAccount(id) {
+  const { data, error } = await supabase
+    .from('vkb_accounts')
+    .update({ amount: 999, note: 'updated note' })
+    .eq('id', id)
+    .select()
+  if (error) console.error(error)
+  return data
+}
+
+// 5. DELETE ROW
+async function deleteAccount(id) {
+  const { error } = await supabase
+    .from('vkb_accounts')
+    .delete()
+    .eq('id', id)
+  if (error) console.error(error)
+}
