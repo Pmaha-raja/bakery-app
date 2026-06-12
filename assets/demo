@@ -30,7 +30,6 @@ function getAccounts($supabaseUrl, $supabaseKey) {
     return supabaseRequest('GET', 'vkb_accounts?select=*', null, $supabaseUrl, $supabaseKey);
 }
 
-// Run it and output JSON
 $result = getAccounts($supabaseUrl, $supabaseKey);
 header('Content-Type: application/json');
 echo json_encode($result['data']);
